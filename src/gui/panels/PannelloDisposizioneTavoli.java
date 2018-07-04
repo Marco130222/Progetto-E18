@@ -23,6 +23,9 @@ public class PannelloDisposizioneTavoli extends JPanel {
         Dimension d=new Dimension(400,400);
         stampaDisposizione.setSize(d);
         stampaDisposizione.setLineWrap(true);
+        stampaDisposizione.setEditable(false);
+
+        stampaElenco.setEditable(false);
 
         pAllGuests.add(labelElenco);
         pAllGuests.add(stampaElenco);
@@ -30,11 +33,14 @@ public class PannelloDisposizioneTavoli extends JPanel {
         pTablesGuests.add(labelDisposizione);
         pTablesGuests.add(stampaDisposizione);
 
+        add(pAllGuests);
+        add(pTablesGuests);
+
 
 
         stampaDisposizione.append("numero invitati: " + gestoreEvento.getNumInvitati()+"\n");
         for (Invitato i: gestoreEvento.getListaInvitati()) {
-            stampaDisposizione.append(i.getID_Inv()+"\t"+i.getNome()+"\t"+i.getCognome()+"\t"+i.getEta()+"\n");
+            stampaElenco.append(i.getID_Inv()+"\t"+i.getNome()+"\t"+i.getCognome()+"\t"+i.getEta()+"\n");
 
         }
 

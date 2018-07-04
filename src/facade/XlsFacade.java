@@ -41,7 +41,7 @@ public class XlsFacade {
         Row headerRow = sheet.createRow(0);
 
         ArrayList<String> columns = new ArrayList<>();
-        columns.add("IDentificativo");
+        //columns.add("IDentificativo");
         columns.add("Name");
         columns.add("Surname");
         columns.add("eta'");
@@ -54,16 +54,9 @@ public class XlsFacade {
 
         CellStyle dateCellStyle = workbook.createCellStyle();
         dateCellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-MM-yyyy"));
-
-
-        int rowNum = 1;
-
-
         for (int count = 0; count < columns.size(); count++) {
             sheet.autoSizeColumn(count);
         }
-
-
         try {
             fileOut = new FileOutputStream(nomeEvento+".xls");
             workbook.write(fileOut);
@@ -80,12 +73,11 @@ public class XlsFacade {
     }
 
     public ArrayList<Invitato> readXlsGuests(String nomeEvento){
-        boolean done = true;
+        //boolean done = true;
 
-        ArrayList<Invitato> invitati= new ArrayList<>(2);
+        ArrayList<Invitato> invitati= new ArrayList<Invitato>(2);
         try {
             String file = nomeEvento+".xls";
-
             FileInputStream excelFile = new FileInputStream(new File(file));
             workbook = new HSSFWorkbook(excelFile);
             Sheet dataTypeSheet = workbook.getSheetAt(0);
@@ -93,6 +85,7 @@ public class XlsFacade {
             iterator.next();
 
             while (iterator.hasNext()) {
+                Invitato fantoccio=null,elemento=null;
                 String name=null,surname=null;
                 int eta=-1;
                 Row currentRow = (Row) iterator.next();
@@ -102,26 +95,30 @@ public class XlsFacade {
                     Cell currentCell = (Cell) cellIterator.next();
                     if (currentCell.getCellTypeEnum() == CellType.STRING) {
                         System.out.print(currentCell.getStringCellValue() + "  ");
-                        if(currentCell.getColumnIndex()==1){
+                        if(currentCell.getColumnIndex()==0){
                             name=currentCell.getStringCellValue();
-                        }else if(currentCell.getColumnIndex()==2){
+                        }else if(currentCell.getColumnIndex()==1){
                             surname=currentCell.getStringCellValue();
                         }
                     } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
                         System.out.print(currentCell.getNumericCellValue() + " anni ");
                         eta=(int)currentCell.getNumericCellValue();
                     }
-                    if (!cellIterator.hasNext())
-                        invitati.add(new Invitato(setID_Inv(name, surname),name,surname,eta));
+                    if (!cellIterator.hasNext()) {
+                        fantoccio = new Invitato(name, surname, eta);
+                        elemento = new Invitato(fantoccio.getID_Inv(),name,surname,eta);
+                        invitati.add(elemento);
+                    }
+
                 }
-                System.out.println();
+                //System.out.println();
             }
         } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
-            done = false;
+           // done = false;
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-            done = false;
+            //done = false;
         }
         return invitati;
     }

@@ -11,6 +11,7 @@ import persone.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -19,7 +20,7 @@ import java.util.*;
  */
 
 public class PannelloSpecificheEvento extends JPanel {
-    public PannelloSpecificheEvento(GestoreLocale gestoreLocale, GestoreEvento gestoreEvento){
+    public PannelloSpecificheEvento(GestoreLocale gestoreLocale, GestoreEvento gestoreEvento, FinestraSpecificheEvento frame){
 
 
         // etichette specifiche
@@ -78,7 +79,7 @@ public class PannelloSpecificheEvento extends JPanel {
 
         bUpload.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)  {
+            public void actionPerformed(ActionEvent e) {
 
                 ArrayList<Invitato> invitati=new ArrayList<>();
 /*
@@ -103,16 +104,20 @@ public class PannelloSpecificheEvento extends JPanel {
                     invitati.add(i);
                 }
 */
-                for (Invitato i:sisPr.loadXlsGenerality(gestoreEvento.getName())) {
 
-                    gestoreEvento.addInvitati(i);
-                }
+                    for (Invitato i : sisPr.loadXlsGenerality(gestoreEvento.getName())) {
+
+                        gestoreEvento.addInvitati(i);
+                    }
+
 
                 //    sisPr.acquisisciInvitati(invitati);
 
                 System.out.println("Acquisizione invitati effettuata.");
                 FinestraDisposizioneTavoli fd=new FinestraDisposizioneTavoli(gestoreLocale, gestoreEvento);
                 fd.setVisible(true);
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+
 
             }
         });

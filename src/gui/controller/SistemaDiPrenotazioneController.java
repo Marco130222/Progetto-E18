@@ -122,7 +122,18 @@ public class SistemaDiPrenotazioneController{
     }
 
     public ArrayList<Invitato> loadXlsGenerality(String nomeEvento){
-        return xlsFacade.readXlsGuests(nomeEvento);
+        ArrayList<Invitato> listainvitatiEvento=null;
+        try {
+            listainvitatiEvento = xlsFacade.readXlsGuests(nomeEvento);
+
+        int sizelist = listainvitatiEvento.size();
+        txtFacade t = new txtFacade(nomeEvento+"lista_invitati.txt",sizelist);
+        for (Invitato element:listainvitatiEvento) {
+            t.WriteGuests(element.getID_Inv(),element.getNome(),element.getCognome(),element.getEta());
+        }
+        }catch (IOException e){ e.printStackTrace(); }
+
+        return listainvitatiEvento ;
     }
 
 

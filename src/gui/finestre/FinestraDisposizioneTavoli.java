@@ -18,6 +18,7 @@ public class FinestraDisposizioneTavoli extends JFrame {
         PannelloDisposizioneTavoli pd=new PannelloDisposizioneTavoli(gestoreLocale, gestoreEvento);
         Container c=getContentPane();
         c.add(pd);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     }
 }

@@ -1,6 +1,7 @@
 package gui.panels;
 
 import gui.controller.SistemaDiPrenotazioneController;
+import gui.finestre.FinestraCreazioneEvento;
 import gui.finestre.FinestraSpecificheEvento;
 import locale.GestoreEvento;
 import locale.GestoreLocale;
@@ -11,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -21,12 +23,12 @@ import java.util.GregorianCalendar;
  */
 
 public class PannelloCredenzialiEvento extends JPanel{
-    public PannelloCredenzialiEvento(ArrayList<GestoreLocale> locali, Cliente cliente){
+    public PannelloCredenzialiEvento(ArrayList<GestoreLocale> locali, Cliente cliente, FinestraCreazioneEvento frame){
         JButton ok=new JButton("OK");
 
-        JLabel nome= new JLabel("Nome GestoreEvento:");
-        JLabel data= new JLabel("Data GestoreEvento:");
-        JLabel selLoc= new JLabel("Selezione GestoreLocale:");
+        JLabel nome= new JLabel("Nome Evento:");
+        JLabel data= new JLabel("Data Evento:");
+        JLabel selLoc= new JLabel("Selezione Locale:");
         JLabel nInv= new JLabel("Numero Invitati:");
 
         JTextField tNome= new JTextField();
@@ -99,6 +101,8 @@ public class PannelloCredenzialiEvento extends JPanel{
                 GestoreEvento gestoreEvento =new GestoreEvento(tNome.getText(),calendar, gestoreLocaleSelezionato,invitati);
                 FinestraSpecificheEvento fs= new FinestraSpecificheEvento(gestoreLocaleSelezionato, gestoreEvento);//fetchEvento
                 fs.setVisible(true);
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+
             }
         });
     }
