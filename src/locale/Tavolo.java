@@ -106,7 +106,7 @@ public class Tavolo implements Comparable{
         String invitatiTavolo = "";
 
         for (Invitato i : AssegnamentiTavolo) {
-            invitatiTavolo += i.getNome() + " " + i.getCognome() + "\n";
+            if(!(i==null)){invitatiTavolo += i.getNome() + " " + i.getCognome() + "\n";}
         }
 
         return "Tavolo: " + getIDTavolo() + " Numero posti: " + getPostiTot() + "\n\n" + invitatiTavolo;
